@@ -9,6 +9,7 @@ import { resolvers, typeDefs } from './graphql/schema.js';
 
 const port = Number(process.env.PORT) || 4000;
 const mongoUri = process.env.MONGODB_URI;
+const mongoDatabase = process.env.MONGODB_DATABASE || 'DBProductos';
 
 if (!mongoUri) {
   throw new Error('Falta la variable de entorno MONGODB_URI.');
@@ -28,7 +29,7 @@ app.get('/health', (_request, response) => {
   });
 });
 
-await mongoose.connect(mongoUri);
+await mongoose.connect(mongoUri, { dbName: mongoDatabase });
 await apollo.start();
 
 app.use(
